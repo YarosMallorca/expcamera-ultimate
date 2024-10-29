@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 
-let successfulFileLocation = 'device.json';
+let successfulFileLocation = 'devices.json';
 
 // Enable all CORS requests
 app.use(cors());
@@ -57,6 +57,35 @@ app.route('/devices')
                     return res.status(500).send('Error writing JSON file');
                 }
                 res.status(200).send('Device added successfully');
+            });
+        });
+    })
+    .post((req, res) => {
+        const jsonFilePath = path.join(__dirname, successfulFileLocation);
+        const { ip, port, type } = req.body; // Expecting the IP, port, and type in the request body
+
+        fs.readFile(jsonFilePath, 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading JSON file:', err);
+                return res.status(500).send('Error reading JSON file');
+            }
+
+            const jsonData = JSON.parse(data);
+            // Find the device to update
+            const device = jsonData.devices.find(device => device.ip === ip && device.port === port);
+
+            if (!device) {
+                return res.status(404).send('Device not found');
+            }
+
+            device.type = type; // Add or update the type of the device
+
+            fs.writeFile(jsonFilePath, JSON.stringify(jsonData, null, 4), (err) => {
+                if (err) {
+                    console.error('Error writing JSON file:', err);
+                    return res.status(500).send('Error writing JSON file');
+                }
+                res.status(200).send('Device type updated successfully');
             });
         });
     })

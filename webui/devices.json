@@ -1,3 +1,10 @@
 {
-  "devices": []
+  "devices": [
+    {
+      "ip": "11.11.11.11",
+      "port": "1234",
+      "username": "example",
+      "password": "example"
+    }
+  ]
 }
