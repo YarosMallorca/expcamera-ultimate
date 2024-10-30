@@ -1,4 +1,5 @@
 let deviceListElement = document.getElementById("device-list")
+let hostname = 'http://localhost:3000'
 
 window.addEventListener('load', (event) => {
     fetchDevices(); // Fetch devices once on load
@@ -7,7 +8,7 @@ window.addEventListener('load', (event) => {
 
 
 function fetchDevices() {
-    fetch('http://localhost:3000/devices')
+    fetch(hostname)
         .then(response => response.json())
         .then(data => {
             deviceListElement.innerHTML = "";
@@ -18,8 +19,7 @@ function fetchDevices() {
 }
 
 function deleteDevice(device) {
-    console.log(device)
-    fetch('http://localhost:3000/devices', {
+    fetch(hostname, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
