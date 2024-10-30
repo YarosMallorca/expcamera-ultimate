@@ -8,7 +8,7 @@ window.addEventListener('load', (event) => {
 
 
 function fetchDevices() {
-    fetch(hostname)
+    fetch(hostname + '/devices')
         .then(response => response.json())
         .then(data => {
             deviceListElement.innerHTML = "";
@@ -19,7 +19,7 @@ function fetchDevices() {
 }
 
 function deleteDevice(device) {
-    fetch(hostname, {
+    fetch(hostname + '/devices', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
